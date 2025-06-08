@@ -1,0 +1,678 @@
+/* Basic Reset & Typography - Material Design inspired */
+:root {
+    /* Google Material Dark Theme Colors */
+    --md-sys-color-surface-dim: #1a1c1e; /* Base background, almost black */
+    --md-sys-color-surface: #1a1c1e; /* Similar to surface-dim */
+    --md-sys-color-surface-container: #212325; /* Slightly lighter for elevated elements */
+    --md-sys-color-surface-container-low: #1e2022; /* Slightly darker than base for subtle depth */
+    --md-sys-color-surface-container-high: #2b2e31; /* More elevated elements */
+    --md-sys-color-on-surface: #e3e2e6; /* High-emphasis text/icons (87% white) */
+    --md-sys-color-on-surface-variant: #c3c6cb; /* Medium-emphasis text/icons (60% white) */
+    --md-sys-color-outline: #8d9196; /* Subtle borders */
+    --md-sys-color-error: #ffb4ab; /* For error states */
+    --md-sys-color-on-error-container: #410002;
+
+    /* --- NEW COLOR ACCENTS --- */
+    --primary-accent-color: #61d9eb; /* Vibrant Blue-Green */
+    --primary-accent-darker: #38b1c4; /* Slightly darker for hover */
+    --primary-accent-light-translucent: rgba(97, 217, 235, 0.2); /* For subtle glows */
+    --primary-accent-dark-translucent: rgba(97, 217, 235, 0.4); /* For subtle glows */
+
+    /* Custom variables mapping to our new accent */
+    --bg-color: var(--md-sys-color-surface-dim);
+    --text-color-high-emphasis: var(--md-sys-color-on-surface);
+    --text-color-medium-emphasis: var(--md-sys-color-on-surface-variant);
+    --primary-brand-color: var(--primary-accent-color);
+    --card-bg: var(--md-sys-color-surface-container);
+    --header-bg: var(--md-sys-color-surface-container-high);
+    --footer-bg: var(--md-sys-color-surface-container-low);
+    --border-color: var(--md-sys-color-outline);
+    --button-bg: var(--primary-accent-color);
+    --button-text: var(--md-sys-color-surface-dim); /* Dark text on bright button */
+
+    /* Base font size for rem units - acts as a global scaling factor */
+    font-size: 16px; /* Default for desktop. Will be adjusted in media queries. */
+
+    /* Consistent side padding for main content areas */
+    --page-side-padding: 1.5rem;
+}
+
+/* Universal box-sizing for predictable layout */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color-high-emphasis);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased; /* Smoother font rendering for WebKit browsers */
+    -moz-osx-font-smoothing: grayscale; /* Smoother font rendering for Firefox */
+    min-height: 100vh; /* Ensures body takes at least full viewport height */
+    display: flex;
+    flex-direction: column; /* Stacks header, main, footer vertically */
+    overflow-x: hidden; /* Prevent horizontal scroll from animations or over-eager content */
+}
+
+main {
+    flex-grow: 1; /* Allows main content to push the footer to the bottom */
+}
+
+h1, h2, h3 {
+    font-family: 'Roboto Mono', monospace;
+    color: var(--text-color-high-emphasis);
+    text-align: center;
+    margin-bottom: 1em;
+    font-weight: 500;
+}
+
+h1 {
+    /* Responsive font size: min 1rem (even smaller to fit), scales up to 4vw, max 3.5rem */
+    font-size: clamp(1rem, 4vw, 3.5rem); /* Adjusted min font size for better fit on one line */
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap; /* Forces text to stay on a single line */
+}
+
+h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.2rem);
+    margin-bottom: 1.5em;
+}
+
+h3 {
+    font-size: clamp(1.4rem, 2.5vw, 1.6rem);
+    font-weight: 500;
+}
+
+p {
+    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+    color: var(--text-color-medium-emphasis);
+}
+
+a {
+    color: var(--primary-accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-accent-darker);
+}
+
+/* Accessible focus states for keyboard navigation */
+a:focus-visible,
+.button:focus-visible,
+.project-link:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--primary-accent-color);
+    outline-offset: 3px;
+    border-radius: 6px; /* Match general border-radius */
+}
+
+
+.highlight {
+    color: var(--primary-accent-color);
+}
+
+/* Header & Navigation */
+header {
+    background-color: rgba(26, 28, 30, 0.8); /* Added semi-transparent background for blur effect */
+    padding: 0.75rem 0; /* Reduced vertical padding to make the nav bar smaller */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px); /* Apply blur effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Limits width on very large screens */
+    margin: 0 auto;
+    padding: 0 var(--page-side-padding); /* Consistent side padding using variable */
+}
+
+.logo {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-color-high-emphasis);
+    white-space: nowrap; /* Prevents logo from wrapping */
+    flex-shrink: 0; /* Prevents logo from shrinking on small screens */
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* Allows nav items to wrap to next line */
+    justify-content: flex-end; /* Aligns nav items to the right */
+    gap: 1.5rem; /* Space between nav items */
+}
+
+nav ul li a {
+    color: var(--text-color-medium-emphasis);
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s ease;
+    display: block; /* Ensures padding/hover area works well */
+}
+
+nav ul li a:hover {
+    color: var(--primary-accent-color);
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--primary-accent-color);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+
+#hero {
+    scroll-margin-top: 6rem; /* Same value as above */
+}
+
+.hero-section {
+    min-height: 70vh; /* More flexible min-height */
+    max-height: 90vh; /* Prevents excessive height on tall screens */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: radial-gradient(circle at top left, var(--md-sys-color-surface-container-low), var(--md-sys-color-surface-dim));
+    padding: 4rem var(--page-side-padding); /* Adjusted padding using variable */
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-background-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.1;
+    background:
+        radial-gradient(circle at 10% 20%, var(--primary-accent-color) 0%, transparent 50%),
+        radial-gradient(circle at 80% 90%, var(--primary-accent-color) 0%, transparent 50%),
+        radial-gradient(circle at 50% 5%, var(--primary-accent-darker) 0%, transparent 50%);
+    background-size: 30% 30%, 25% 25%, 20% 20%;
+    animation: backgroundShift 20s infinite alternate linear;
+}
+
+@keyframes backgroundShift {
+    0% { background-position: 10% 20%, 80% 90%, 50% 5%; }
+    100% { background-position: 15% 25%, 85% 85%, 55% 10%; }
+}
+
+.hero-content {
+    max-width: 100%; /* Allows text to take full available width within hero-section padding */
+    padding: 0; /* Removed inner padding to allow h1 to expand */
+    z-index: 1;
+}
+
+/* Typing Effect specific styles */
+.typed-text {
+    border-right: 2px solid transparent; /* Placeholder for cursor */
+}
+
+.cursor {
+    display: inline-block;
+    background-color: var(--primary-accent-color);
+    color: transparent;
+    margin-left: 5px;
+    animation: blinkCursor 0.75s step-end infinite;
+    vertical-align: middle;
+    height: 1.2em;
+    width: 0.1em;
+}
+
+@keyframes blinkCursor {
+    from, to { background-color: transparent; }
+    50% { background-color: var(--primary-accent-color); }
+}
+
+.hero-content p {
+    /* Clamped font size for hero paragraph */
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-bottom: 2.5rem; /* Consistent rem unit */
+    color: var(--text-color-medium-emphasis);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0; /* Start hidden for animation */
+    transform: translateY(20px); /* Start slightly below */
+    transition: opacity 0.8s ease-out 1.5s, transform 0.8s ease-out 1.5s; /* Delay after typing */
+}
+.hero-section.visible .hero-content p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.button {
+    display: inline-block;
+    background-color: #61d9eb; /* Button is white */
+    color: var(--md-sys-color-surface-dim); /* Dark text on white button */
+    padding: 0.9em 2.5em; /* em for padding to scale with font-size */
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; /* Unified transition duration */
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 1rem; /* Explicit font size for button */
+    opacity: 0; /* Start hidden for animation */
+    transform: translateY(40px); /* Increased initial translateY for more pronounced scroll effect */
+    transition: opacity 0.8s ease-out 2s, transform 0.8s ease-out 2s; /* Adjusted delay for button appearance */
+}
+.hero-section.visible .button {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.button:hover {
+    background-color: var(--primary-accent-color); /* Changes to accent color on hover */
+    color: white; /* Text becomes white on hover */
+    /* Added glow effect with multiple shadows */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
+                0 0 15px var(--primary-accent-light-translucent),
+                0 0 30px var(--primary-accent-dark-translucent);
+    transform: translateY(-2px); /* Slightly more pronounced lift on hover */
+}
+.button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    background-color: var(--primary-accent-darker);
+    color: white; /* Keep text white on active */
+}
+
+/* General Section Styling & Fade-in Animation */
+.section {
+    max-width: 1000px;
+    /* Ensure section takes full width minus padding on smaller screens, then centers */
+    width: calc(100% - (var(--page-side-padding) * 2));
+    margin: 5rem auto;
+    padding: 3rem; /* Internal padding for content within the section */
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+    /* Animation properties for scroll reveal */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    scroll-margin-top: 6rem;
+}
+
+.section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Delay for elements within active sections for staggered effect */
+.section.active h2,
+.section.active p,
+.section.active .skills-grid,
+.section.active .projects-grid,
+.section.active .contact-form,
+.section.active .social-links {
+    transition-delay: 0.2s;
+}
+
+/* Skills Section */
+.skills-grid {
+    display: grid;
+    /* auto-fit ensures grid fills available space, minmax creates flexible columns */
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1.8rem;
+    margin-top: 2.5rem;
+    justify-items: center; /* Centers skill items horizontally within their grid cells */
+}
+
+.skill-item {
+    background-color: var(--md-sys-color-surface-container-low);
+    padding: 1.2rem 1.8rem;
+    border-radius: 6px;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    color: var(--text-color-high-emphasis);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    position: relative;
+    width: 100%; /* Ensures items take full width of their grid cell */
+    max-width: 200px; /* Prevents skills items from becoming too wide on large screens */
+}
+
+.skill-item:hover {
+    transform: translateY(-3px);
+    background-color: var(--md-sys-color-surface-container);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px var(--primary-accent-light-translucent);
+}
+
+/* Projects Section */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+.project-card {
+    background-color: var(--md-sys-color-surface-container);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-accent-dark-translucent);
+}
+
+.project-card h3 {
+    margin-top: 0;
+    color: var(--primary-accent-color);
+    text-align: left;
+    margin-bottom: 0.8rem;
+}
+
+.project-card p {
+    font-size: 0.98rem;
+    line-height: 1.5;
+    text-align: left;
+    flex-grow: 1;
+    color: var(--text-color-medium-emphasis);
+    margin-bottom: 1.5rem;
+}
+
+.project-links {
+    display: flex;
+    flex-wrap: wrap; /* Allows links to wrap to the next line */
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.project-link {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background-color: var(--md-sys-color-surface-container-high);
+    color: var(--primary-accent-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease, color 0.3s ease;
+    border: 1px solid var(--primary-accent-darker);
+}
+
+.project-link:hover {
+    background-color: var(--primary-accent-color);
+    color: var(--button-text);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Contact Section */
+/* Removed .contact-form and its child styles as the form is no longer in HTML */
+
+.social-links {
+    margin-top: 2.5rem;
+    text-align: center;
+    display: flex; /* Use flexbox for better spacing/alignment */
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem; /* Space between social links */
+}
+
+.social-links a {
+    font-size: 2.2rem; /* Increased font size for icons */
+    color: var(--text-color-medium-emphasis);
+    transition: color 0.3s ease, transform 0.2s ease;
+    /* Removed background, padding, border, and flex properties to show only icons */
+    display: inline-block; /* Revert to inline-block for simple icons */
+    padding: 0; /* Ensure no extra padding */
+    border: none; /* Ensure no border */
+    background-color: transparent; /* Ensure no background */
+}
+
+.social-links a:hover {
+    color: var(--primary-accent-color);
+    transform: translateY(-2px);
+    background-color: transparent; /* Ensure no background on hover */
+    box-shadow: none; /* Ensure no shadow on hover */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2.5rem 0;
+    margin-top: 4rem;
+    background-color: var(--footer-bg);
+    color: var(--text-color-medium-emphasis);
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0; /* Prevents footer from shrinking when main content is very large */
+}
+
+/* --- Responsive Design Adjustments --- */
+
+/* Base font size scaling for different screen widths */
+@media (max-width: 1400px) {
+    :root {
+        font-size: 15px; /* Slightly reduce base font size for larger screens below 1400px */
+    }
+}
+
+@media (max-width: 1024px) {
+    :root {
+        font-size: 14px; /* Further reduction for tablets and smaller desktops */
+    }
+
+    nav {
+        padding: 0 calc(var(--page-side-padding) * 0.75); /* Reduced padding for narrower screens */
+    }
+
+    .hero-section {
+        min-height: 60vh; /* Shorter hero on tablets */
+        padding: 3rem calc(var(--page-side-padding) * 0.75);
+    }
+
+    .section {
+        margin: 4rem auto;
+        padding: 2rem; /* Reduced section internal padding */
+        width: calc(100% - (var(--page-side-padding) * 1.5)); /* Adjust width based on new side padding */
+    }
+
+    .projects-grid {
+        gap: 1.5rem; /* Reduced gap for projects */
+    }
+    .project-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        font-size: 13px; /* Significant reduction for mobile */
+        --page-side-padding: 1rem; /* Smaller side padding for mobile */
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem var(--page-side-padding) 0; /* Adjust header padding for stacked nav */
+    }
+
+    .logo {
+        margin-bottom: 0.8rem; /* Space below logo when nav stacks */
+    }
+
+    nav ul {
+        margin-top: 0.5rem;
+        gap: 1rem; /* Smaller gap for nav items */
+        justify-content: center; /* Center nav items */
+        padding-bottom: 1rem; /* Padding at bottom of nav */
+    }
+
+    .hero-section {
+        min-height: 50vh; /* Shorter hero on mobile */
+        padding: 2.5rem var(--page-side-padding);
+    }
+
+    h1 {
+        font-size: clamp(1.4rem, 8vw, 2.5rem); /* Adjusted font size for H1 on mobile */
+    }
+
+    h2 {
+        font-size: clamp(1.4rem, 6vw, 1.8rem);
+    }
+
+    h3 {
+        font-size: clamp(1.2rem, 5vw, 1.4rem);
+    }
+
+    p {
+        font-size: clamp(0.9rem, 4vw, 1rem);
+    }
+
+    .button {
+        padding: 0.8em 2em;
+        font-size: 0.9rem;
+    }
+
+    .section {
+        padding: 1.5rem; /* Further reduced section internal padding */
+        margin: 3rem auto;
+        width: calc(100% - (var(--page-side-padding) * 2)); /* Ensure width calculation uses new mobile padding */
+    }
+
+    .skills-grid,
+    .projects-grid {
+        grid-template-columns: 1fr; /* Stack items vertically on mobile */
+        gap: 1.5rem;
+    }
+
+    .skill-item {
+        max-width: 100%; /* Allow skill items to stretch to full width */
+        padding: 1rem 1.5rem;
+    }
+
+    .social-links a {
+        font-size: 2rem; /* Slightly smaller social link text on mobile */
+    }
+
+    footer {
+        padding: 1.5rem 0;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Even smaller base font for very small screens */
+    :root {
+        font-size: 12px;
+        --page-side-padding: 0.8rem; /* Even smaller side padding for tiny screens */
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    nav ul {
+        gap: 0.8rem;
+    }
+
+    .hero-section {
+        min-height: 45vh; /* Very short hero on tiny screens */
+        padding: 2rem var(--page-side-padding);
+    }
+
+    h1 {
+        font-size: clamp(1.2rem, 9vw, 1.8rem); /* Even smaller H1 for very small screens */
+    }
+
+    h2 {
+        font-size: clamp(1.3rem, 7vw, 1.6rem);
+    }
+
+    h3 {
+        font-size: clamp(1.1rem, 6vw, 1.3rem);
+    }
+
+    p {
+        font-size: clamp(0.85rem, 4.5vw, 0.95rem);
+    }
+
+    .button {
+        padding: 0.7em 1.8em;
+        font-size: 0.85rem;
+    }
+
+    .section {
+        padding: 1rem; /* Minimal internal padding on very small screens */
+        margin: 2rem auto;
+        width: calc(100% - (var(--page-side-padding) * 2)); /* Ensure width calculation uses new tiny padding */
+    }
+
+    .project-card {
+        padding: 1rem;
+    }
+
+    .project-link {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Accessibility: Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .hero-background-elements {
+        animation: none !important; /* Disable background animation */
+        opacity: 0.15 !important; /* Maintain some visibility */
+    }
+    .cursor {
+        animation: none !important; /* Disable cursor blink */
+        opacity: 1 !important; /* Keep cursor visible */
+    }
+    /* Remove transitions and transforms for elements that animate on scroll/load */
+    .section,
+    .hero-content p,
+    .button {
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}
